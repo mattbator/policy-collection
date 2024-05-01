@@ -1,0 +1,34 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: kasten-immutable-location-profile
+  annotations:
+    policies.kyverno.io/title: Check Immutable Location Profile
+    policies.kyverno.io/category: Veeam Kasten
+    kyverno.io/kyverno-version: 1.6.2
+    policies.kyverno.io/minversion: 1.6.2
+    kyverno.io/kubernetes-version: "1.29"
+    policies.kyverno.io/subject: Profile
+    policies.kyverno.io/description: >-
+      Kasten Location Profiles store RestorePoints (application backups).
+      Azure Blob, AWS S3, or S3-compatible object storage that supports object lock can store immutable backups. 
+      This policy validates a Profile contains a 'protectionPeriod', indicating that immutability has been enabled on the Profile resource.
+spec:
+  validationFailureAction: audit
+  rules:
+  - name: k10-immutable-location-profile
+    match:
+      any: 
+      - resources:
+          kinds:
+          - config.kio.kasten.io/v1alpha1/Profile
+    validate:
+      message: "Location Profile does not have immutability enabled (err: did not find 'protectionPeriod')"
+      pattern:
+        spec:
+          type: Location
+          locationSpec:
+            location:
+              locationType: ObjectStore
+              objectStore:
+                protectionPeriod: "?*" # any value determines immutability is enabled 

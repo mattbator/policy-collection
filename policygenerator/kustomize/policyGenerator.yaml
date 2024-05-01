@@ -35,3 +35,6 @@ policies:
   - name: policy-kyverno-require-labels
     manifests:
       - path: policy3_kyverno/kyverno.yaml
+  - name: policy-kasten-immutable-profiles
+    manifests:
+      - path: kasten-policies/kasten-immutable-location-profile
