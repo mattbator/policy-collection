@@ -37,4 +37,4 @@ policies:
       - path: policy3_kyverno/kyverno.yaml
   - name: policy-kasten-immutable-profiles
     manifests:
-      - path: kasten-policies/kasten-immutable-location-profile
+      - path: kasten-policies/kasten-immutable-location-profile.yaml
