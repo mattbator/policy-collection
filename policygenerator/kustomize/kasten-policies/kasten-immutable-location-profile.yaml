@@ -14,7 +14,7 @@ metadata:
       Azure Blob, AWS S3, or S3-compatible object storage that supports object lock can store immutable backups. 
       This policy validates a Profile contains a 'protectionPeriod', indicating that immutability has been enabled on the Profile resource.
 spec:
-  validationFailureAction: audit
+  validationFailureAction: enforce
   rules:
   - name: k10-immutable-location-profile
     match:
