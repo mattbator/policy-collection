@@ -5,8 +5,8 @@ metadata:
   annotations:
     policies.kyverno.io/title: Check Immutable Location Profile
     policies.kyverno.io/category: Veeam Kasten
-    kyverno.io/kyverno-version: 1.6.2
-    policies.kyverno.io/minversion: 1.6.2
+    kyverno.io/kyverno-version: 1.12.1
+    policies.kyverno.io/minversion: 1.12.1
     kyverno.io/kubernetes-version: "1.29"
     policies.kyverno.io/subject: Profile
     policies.kyverno.io/description: >-
