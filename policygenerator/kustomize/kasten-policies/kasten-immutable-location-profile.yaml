@@ -22,6 +22,8 @@ spec:
       - resources:
           kinds:
           - config.kio.kasten.io/v1alpha1/Profile
+          namespaces:
+          - kasten-io
     validate:
       message: "Location Profile does not have immutability enabled (err: did not find 'protectionPeriod')"
       pattern:
