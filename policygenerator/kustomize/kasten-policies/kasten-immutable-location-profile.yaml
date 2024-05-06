@@ -1,36 +1,28 @@
 apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+kind: Policy
 metadata:
   name: kasten-immutable-location-profile
+  namespace: kasten-io
   annotations:
-    policies.kyverno.io/title: Check Immutable Location Profile
-    policies.kyverno.io/category: Veeam Kasten
-    kyverno.io/kyverno-version: 1.12.1
-    policies.kyverno.io/minversion: 1.12.1
-    kyverno.io/kubernetes-version: "1.29"
-    policies.kyverno.io/subject: Profile
+    policies.kyverno.io/title: Enforce Immutable Kasten Location Profile
+    policies.kyverno.io/category: K10
+    policies.kyverno.io/subject: config.kio.kasten.io/v1alpha1/Profile
     policies.kyverno.io/description: >-
-      Kasten Location Profiles store RestorePoints (application backups).
-      Azure Blob, AWS S3, or S3-compatible object storage that supports object lock can store immutable backups. 
-      This policy validates a Profile contains a 'protectionPeriod', indicating that immutability has been enabled on the Profile resource.
+      Ensure Kasten Location Profiles have enabled immutability to prevent unintentional or malicious changes to backup data.
 spec:
-  validationFailureAction: enforce
+  validationFailureAction: Enforce
   rules:
-  - name: k10-immutable-location-profile
+  - name: enforce-immutable-location-profile
     match:
-      any: 
-      - resources:
-          kinds:
-          - config.kio.kasten.io/v1alpha1/Profile
-          namespaces:
-          - kasten-io
+      resources:
+        kinds:
+        - Profile
     validate:
-      message: "Location Profile does not have immutability enabled (err: did not find 'protectionPeriod')"
+      message: >-
+        All Kasten Location Profiles must have immutability enabled.
       pattern:
         spec:
-          type: Location
+          (type): Location
           locationSpec:
-            location:
-              locationType: ObjectStore
-              objectStore:
-                protectionPeriod: "?*" # any value determines immutability is enabled 
+            objectStore:
+              protectionPeriod: "*"

@@ -21,6 +21,6 @@ policyDefaults:
   remediationAction: inform
   severity: medium
 policies:
-  - name: policy-kasten-immutable-profiles
+  - name: policy-kasten-immutable-location-profile
     manifests:
       - path: kasten-policies/kasten-immutable-location-profile.yaml
